@@ -2,11 +2,11 @@
   {
     "name": "hello",
     "version": "1.0.0",
-    "url": "https://pascal1132.github.io/rinux-packages/pkgs/hello-1.0.0.tar"
+    "url": "https://rinux.pascalparent.ca/packages/pkgs/hello-1.0.0.tar"
   },
   {
     "name": "busybox-extra",
     "version": "1.36.0",
-    "url": "https://pascal1132.github.io/rinux-packages/pkgs/busybox-extra-1.36.0.tar"
+    "url": "https://rinux.pascalparent.ca/packages/pkgs/busybox-extra-1.36.0.tar"
   }
 ]
