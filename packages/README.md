@@ -5,7 +5,7 @@ This repository serves as the official package registry for `rpkg`, the Rinux pa
 ## Registry URL
 
 ```
-https://pascal1132.github.io/rinux-packages/registry.json
+https://rinux.pascalparent.ca/packages/registry.json
 ```
 
 ## Adding a package
@@ -15,11 +15,11 @@ Add an entry to `registry.json`:
 {
   "name": "package-name",
   "version": "1.0.0",
-  "url": "https://your-host/package-1.0.0.tar"
+  "url": "https://rinux.pascalparent.ca/packages/pkgs/package-name-1.0.0.tar"
 }
 ```
 
-Packages are `.tar` archives that are extracted into `/usr/bin/` on the target system.
+Packages are `.tar` archives stored in `packages/pkgs/` and extracted into `/usr/bin/` on the target system.
 
 ## Local development
 
