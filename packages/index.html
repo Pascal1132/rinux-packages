@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rinux Packages</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; background: #0d1117; color: #c9d1d9; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; }
+    h1 { font-size: 2.4rem; font-weight: 700; color: #f0f6fc; margin-bottom: .5rem; }
+    h1 span { color: #58a6ff; }
+    p { color: #8b949e; margin-bottom: 1.5rem; font-size: 1.1rem; }
+    code { background: #161b22; padding: .15em .4em; border-radius: 4px; font-size: .9em; color: #79c0ff; }
+    .registry { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1rem 1.5rem; margin-bottom: 2rem; font-family: monospace; font-size: .85rem; color: #8b949e; max-width: 100%; word-break: break-all; }
+    .pkgs { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .pkg { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1rem 1.5rem; min-width: 180px; text-align: center; }
+    .pkg .name { font-weight: 600; color: #f0f6fc; font-size: 1.1rem; }
+    .pkg .ver { color: #58a6ff; font-size: .85rem; margin-top: .25rem; }
+    footer { margin-top: 3rem; color: #484f58; font-size: .8rem; }
+    a { color: #58a6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Rinux <span>Packages</span></h1>
+  <p>Official package registry for <code>rpkg</code></p>
+  <div class="registry">https://rinux.pascalparent.ca/packages/registry.json</div>
+  <div class="pkgs" id="pkgs"></div>
+  <footer><a href="https://github.com/pascalparent/rinux">github.com/pascalparent/rinux</a></footer>
+
+  <script>
+    fetch("packages/registry.json")
+      .then(r => r.json())
+      .then(pkgs => {
+        const el = document.getElementById("pkgs");
+        pkgs.forEach(p => {
+          el.insertAdjacentHTML("beforeend",
+            `<div class="pkg"><div class="name">${p.name}</div><div class="ver">${p.version}</div></div>`);
+        });
+      })
+      .catch(() => { document.getElementById("pkgs").innerHTML = "<em>Could not load packages</em>"; });
+  </script>
+</body>
+</html>
