@@ -10,5 +10,11 @@
     "version": "1.36.0",
     "url": "https://rinux.pascalparent.ca/packages/pkgs/busybox-extra-1.36.0.tar",
     "sha256": "3af4a7d793ae04e62ceb6c8cc55b7119234d878cdde608f9f9ce79d03ff2717b"
+  },
+  {
+    "name": "doom",
+    "version": "1.0.0",
+    "url": "https://rinux.pascalparent.ca/packages/pkgs/doom-1.0.0.tar",
+    "sha256": "9da34388497cbb88637a58e3b1766b5e6a42595fcef972a4faec684068ad6beb"
   }
 ]
