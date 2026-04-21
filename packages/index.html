@@ -52,7 +52,6 @@
       <div class="cta-row" id="dl-actions" style="display:none">
         <a id="dl-iso" class="btn" href="#" download>Download ISO</a>
         <a id="dl-release" class="btn secondary" href="#" target="_blank" rel="noopener">Release notes</a>
-        <a class="btn secondary" href="https://github.com/Pascal1132/Rinux/releases" target="_blank" rel="noopener">All releases</a>
       </div>
       <div class="meta" id="dl-meta" style="display:none">
         <span id="dl-version"></span>
@@ -62,7 +61,7 @@
       <div class="sha" id="dl-sha" style="display:none"></div>
       <p class="muted" style="margin-top:.9rem; font-size:.85rem;">
         Stable direct link:
-        <a href="https://github.com/Pascal1132/Rinux/releases/latest/download/rinux-latest.iso">
+        <a href="/packages/releases/rinux-latest.iso">
           <code>rinux-latest.iso</code>
         </a>
         — always points to the most recent GA release.
@@ -82,13 +81,7 @@
     </section>
 
     <footer>
-      <div class="links">
-        <a href="https://github.com/Pascal1132/Rinux">GitHub</a>
-        <a href="https://github.com/Pascal1132/Rinux/blob/main/README.md">Docs</a>
-        <a href="https://github.com/Pascal1132/Rinux/blob/main/CHANGELOG.md">Changelog</a>
-        <a href="https://github.com/Pascal1132/Rinux/blob/main/LICENSE">License</a>
-      </div>
-      <p style="margin-top:.9rem">Built in Rust. <span class="pill">no_std</span> <span class="pill">x86_64</span> <span class="pill">microkernel</span></p>
+      <p>Built in Rust. <span class="pill">no_std</span> <span class="pill">x86_64</span> <span class="pill">microkernel</span></p>
     </footer>
   </main>
 
@@ -110,7 +103,7 @@
       .catch(() => { document.getElementById("pkgs").innerHTML = '<em class="muted">Could not load packages.</em>'; });
 
     // --- Latest release ---
-    const LATEST_ISO = "https://github.com/Pascal1132/Rinux/releases/latest/download/rinux-latest.iso";
+    const LATEST_ISO = "/packages/releases/rinux-latest.iso";
     function fmtSize(n) {
       if (!n) return "";
       if (n >= 1024*1024) return (n / (1024*1024)).toFixed(1) + " MB";
@@ -131,8 +124,10 @@
       const size    = document.getElementById("dl-size");
       const date    = document.getElementById("dl-date");
       const shaEl   = document.getElementById("dl-sha");
-      isoA.href = (rel && rel.iso && rel.iso.url) || LATEST_ISO;
-      relA.href = (rel && rel.html_url) || "https://github.com/Pascal1132/Rinux/releases/latest";
+      const latestUrl = (rel && rel.iso && (rel.iso.latest || rel.iso.url)) || LATEST_ISO;
+      isoA.href = latestUrl;
+      relA.href = (rel && rel.html_url) || "#";
+      relA.style.display = (rel && rel.html_url) ? "inline-flex" : "none";
       if (rel && rel.tag) {
         intro.style.display = "none";
         actions.style.display = "flex";
@@ -140,13 +135,17 @@
         ver.textContent  = rel.tag;
         size.textContent = rel.iso ? fmtSize(rel.iso.size) : "";
         date.textContent = fmtDate(rel.published);
-        if (rel.sha256_url) {
+        if (rel.sha256_url || (rel.iso && rel.iso.sha256)) {
           shaEl.style.display = "block";
-          shaEl.innerHTML = '<strong>Verify:</strong> <a href="' + rel.sha256_url + '">SHA256 checksum</a> — <code>sha256sum -c rinux-latest.iso.sha256</code>';
+          const link = rel.sha256_url ? '<a href="' + rel.sha256_url + '">SHA256 checksum</a>' : "";
+          const sha  = rel.iso && rel.iso.sha256 ? '<br><span style="color:#c9d1d9">' + rel.iso.sha256 + '</span>' : "";
+          shaEl.innerHTML = '<strong>Verify:</strong> ' + link + ' — <code>sha256sum -c rinux-latest.iso.sha256</code>' + sha;
         }
       } else {
-        intro.textContent = "Latest release metadata unavailable. Use the stable direct link below.";
+        intro.textContent = "No release published yet. Check back soon.";
         actions.style.display = "flex";
+        isoA.textContent = "Download pending";
+        isoA.classList.add("secondary");
       }
     }
     fetch("packages/release.json", { cache: "no-store" })
